@@ -16,7 +16,18 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("General");
   const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const categories = [
+    "Academic",
+    "Infrastructure",
+    "Food",
+    "Transport",
+    "Hostel",
+    "Administration",
+    "General",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +62,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
           student_id: user.id,
           title,
           description,
+          category,
           image_url: imageUrl,
         })
         .select()
@@ -84,6 +96,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
       toast.success("Your concern has been submitted! We're on it. 💪");
       setTitle("");
       setDescription("");
+      setCategory("General");
       setImageFile(null);
       onSuccess();
     } catch (error: any) {
@@ -107,6 +120,22 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
             placeholder="Brief summary of your concern"
             maxLength={100}
           />
+        </div>
+        <div>
+          <Label htmlFor="category">Category</Label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-2 border rounded-md bg-background"
+            required
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <Label htmlFor="description">Tell us more</Label>
