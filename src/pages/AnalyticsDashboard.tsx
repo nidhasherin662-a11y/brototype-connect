@@ -101,6 +101,20 @@ const AnalyticsDashboard = () => {
     { name: "Resolved", value: resolvedCount, color: "hsl(var(--status-resolved))" },
   ];
 
+  // Category distribution
+  const categoryData = [
+    "Academic",
+    "Infrastructure",
+    "Food",
+    "Transport",
+    "Hostel",
+    "Administration",
+    "General",
+  ].map((category) => ({
+    name: category,
+    count: complaints.filter((c) => c.category === category).length,
+  })).filter((item) => item.count > 0);
+
   // Calculate resolution times
   const resolvedComplaints = complaints.filter((c) => c.status === "Resolved");
   const avgResolutionTime =
@@ -222,6 +236,21 @@ const AnalyticsDashboard = () => {
             </ResponsiveContainer>
           </Card>
         </div>
+
+        {/* Category Breakdown */}
+        <Card className="p-6 mb-8">
+          <h3 className="text-xl font-bold mb-4">Concerns by Category</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={categoryData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="count" fill="hsl(var(--primary))" />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
 
         {/* Performance Metrics */}
         <Card className="p-6">

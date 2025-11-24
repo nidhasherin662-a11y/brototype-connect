@@ -1,1 +1,13 @@
 project_id = "qgnuprbftnoxoegxgxzu"
+
+[functions.notify-admin-new-complaint]
+verify_jwt = false
+
+[functions.notify-student-response]
+verify_jwt = false
+
+[functions.notify-student-status-change]
+verify_jwt = false
+
+[functions.ai-chat]
+verify_jwt = false

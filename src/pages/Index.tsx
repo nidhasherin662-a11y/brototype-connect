@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { MessageSquare, Shield, TrendingUp } from "lucide-react";
+import LiveChat from "@/components/LiveChat";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -36,13 +37,20 @@ const Index = () => {
               Admin Login
             </Button>
           </div>
-          <div className="mt-6">
+          <div className="mt-6 flex gap-4 justify-center">
             <Button
               variant="link"
               onClick={() => navigate("/faq")}
               className="text-white underline text-lg"
             >
-              Have questions? Visit our FAQ
+              FAQ
+            </Button>
+            <Button
+              variant="link"
+              onClick={() => navigate("/about")}
+              className="text-white underline text-lg"
+            >
+              About Us
             </Button>
           </div>
         </div>
@@ -103,6 +111,9 @@ const Index = () => {
           </p>
         </div>
       </footer>
+
+      {/* Live Chat */}
+      <LiveChat />
     </div>
   );
 };
