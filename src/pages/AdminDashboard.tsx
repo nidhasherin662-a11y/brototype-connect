@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import ComplaintCard from "@/components/ComplaintCard";
 import ComplaintDetailDialog from "@/components/ComplaintDetailDialog";
-import { LogOut, Search, BarChart3 } from "lucide-react";
+import { LogOut, Search, BarChart3, Upload } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 
 const AdminDashboard = () => {
@@ -148,7 +148,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-admin">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -158,6 +157,10 @@ const AdminDashboard = () => {
             <h1 className="text-2xl font-bold text-admin-accent">Admin Dashboard</h1>
           </div>
           <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate("/bulk-import")}>
+              <Upload className="w-4 h-4 mr-2" />
+              Bulk Import
+            </Button>
             <Button variant="outline" onClick={() => navigate("/analytics")}>
               <BarChart3 className="w-4 h-4 mr-2" />
               Analytics
