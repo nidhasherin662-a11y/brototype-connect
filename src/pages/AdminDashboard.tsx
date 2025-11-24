@@ -7,12 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import ComplaintCard from "@/components/ComplaintCard";
 import ComplaintDetailDialog from "@/components/ComplaintDetailDialog";
-import { LogOut, Search, BarChart3, Upload } from "lucide-react";
+import { LogOut, Search, BarChart3, Upload, ArrowLeft, Shield } from "lucide-react";
 import { User } from "@supabase/supabase-js";
+import { Badge } from "@/components/ui/badge";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [adminRole, setAdminRole] = useState<string | null>(null);
   const [complaints, setComplaints] = useState<any[]>([]);
   const [filteredComplaints, setFilteredComplaints] = useState<any[]>([]);
   const [students, setStudents] = useState<Map<string, string>>(new Map());
@@ -71,6 +73,8 @@ const AdminDashboard = () => {
       toast.error("Access denied");
       await supabase.auth.signOut();
       navigate("/admin-auth");
+    } else {
+      setAdminRole(data.role);
     }
   };
 
@@ -151,10 +155,19 @@ const AdminDashboard = () => {
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => navigate("/")}>
-              ← Home
+            <Button variant="ghost" onClick={() => navigate("/")} size="sm">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Home
             </Button>
-            <h1 className="text-2xl font-bold text-admin-accent">Admin Dashboard</h1>
+            <div className="flex items-center gap-3">
+              <Shield className="w-6 h-6 text-admin-accent" />
+              <h1 className="text-2xl font-bold text-admin-accent">Admin Dashboard</h1>
+              {adminRole && (
+                <Badge variant={adminRole === 'super_admin' ? 'default' : 'secondary'} className="ml-2">
+                  {adminRole === 'super_admin' ? 'Super Admin' : adminRole === 'moderator' ? 'Moderator' : 'Admin'}
+                </Badge>
+              )}
+            </div>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate("/bulk-import")}>
