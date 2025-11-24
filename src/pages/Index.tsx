@@ -36,6 +36,15 @@ const Index = () => {
               Admin Login
             </Button>
           </div>
+          <div className="mt-6">
+            <Button
+              variant="link"
+              onClick={() => navigate("/faq")}
+              className="text-white underline text-lg"
+            >
+              Have questions? Visit our FAQ
+            </Button>
+          </div>
         </div>
       </div>
 

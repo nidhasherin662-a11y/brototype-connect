@@ -11,6 +11,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProfileSettings from "./pages/ProfileSettings";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import BulkImport from "./pages/BulkImport";
+import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/profile" element={<ProfileSettings />} />
           <Route path="/analytics" element={<AnalyticsDashboard />} />
           <Route path="/bulk-import" element={<BulkImport />} />
+          <Route path="/faq" element={<FAQ />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
