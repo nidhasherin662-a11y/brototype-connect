@@ -174,6 +174,49 @@ const AdminDashboard = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Quick Actions */}
+        <div className="mb-6 flex flex-wrap gap-3">
+          <Button 
+            onClick={() => navigate("/bulk-import")}
+            className="bg-admin-accent hover:bg-admin-hover"
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Bulk Import
+          </Button>
+          <Button 
+            onClick={() => navigate("/analytics")}
+            variant="outline"
+          >
+            <BarChart3 className="w-4 h-4 mr-2" />
+            View Analytics
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={() => {
+              const csvData = filteredComplaints.map(c => ({
+                id: c.id,
+                title: c.title,
+                status: c.status,
+                student: students.get(c.student_id) || 'Unknown',
+                created: new Date(c.created_at).toLocaleDateString()
+              }));
+              const csv = [
+                Object.keys(csvData[0]).join(','),
+                ...csvData.map(row => Object.values(row).join(','))
+              ].join('\n');
+              const blob = new Blob([csv], { type: 'text/csv' });
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'complaints-report.csv';
+              a.click();
+              toast.success("Report exported successfully!");
+            }}
+          >
+            Export Report
+          </Button>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="p-6 bg-white rounded-lg shadow-soft">
