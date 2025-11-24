@@ -81,7 +81,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
         }
       }
 
-      toast.success("Complaint submitted successfully!");
+      toast.success("Your concern has been submitted! We're on it. 💪");
       setTitle("");
       setDescription("");
       setImageFile(null);
@@ -95,27 +95,27 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
 
   return (
     <Card className="p-6 complaint-card shadow-soft">
-      <h2 className="text-2xl font-bold mb-4">Submit New Complaint</h2>
+      <h2 className="text-2xl font-bold mb-4">Share Your Concern</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">What's on your mind?</Label>
           <Input
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            placeholder="Brief description of the issue"
+            placeholder="Brief summary of your concern"
             maxLength={100}
           />
         </div>
         <div>
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">Tell us more</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            placeholder="Provide detailed information about your complaint"
+            placeholder="Share the details so we can better understand and help you"
             rows={4}
             maxLength={1000}
           />
@@ -139,7 +139,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
           </div>
         </div>
         <Button type="submit" className="w-full bg-complaint-accent hover:bg-complaint-accent/90" disabled={loading}>
-          {loading ? "Submitting..." : "Submit Complaint"}
+          {loading ? "Submitting..." : "Submit Your Concern 🌟"}
         </Button>
       </form>
     </Card>
