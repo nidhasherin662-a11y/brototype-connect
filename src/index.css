@@ -8,28 +8,30 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Student area - Light Blue theme */
-    --student-bg: 207 89% 93%;
-    --student-accent: 211 100% 43%;
-    --student-hover: 211 100% 38%;
+    /* Modern Fresh Color Palette with White Base */
     
-    /* Admin area - Soft Purple theme */
-    --admin-bg: 270 100% 97%;
-    --admin-accent: 270 91% 27%;
-    --admin-hover: 270 91% 23%;
+    /* Student area - Fresh Blue & White */
+    --student-bg: 0 0% 100%;
+    --student-accent: 214 100% 50%;
+    --student-hover: 214 100% 45%;
     
-    /* Complaint cards - Light Yellow theme */
-    --complaint-bg: 48 100% 96%;
-    --complaint-accent: 36 96% 53%;
-    --complaint-border: 45 93% 47%;
+    /* Admin area - Professional Purple & White */
+    --admin-bg: 0 0% 100%;
+    --admin-accent: 262 83% 58%;
+    --admin-hover: 262 83% 53%;
     
-    /* Status colors */
-    --status-pending: 39 100% 57%;
-    --status-progress: 25 95% 53%;
-    --status-resolved: 142 76% 36%;
+    /* Complaint cards - Warm Coral */
+    --complaint-bg: 0 0% 100%;
+    --complaint-accent: 14 91% 56%;
+    --complaint-border: 14 91% 80%;
     
-    /* Base colors */
-    --background: 0 0% 100%;
+    /* Status colors - Vibrant & Clear */
+    --status-pending: 45 100% 51%;
+    --status-progress: 214 100% 50%;
+    --status-resolved: 142 71% 45%;
+    
+    /* Base colors - Clean White Foundation */
+    --background: 0 0% 98%;
     --foreground: 222 47% 11%;
     
     --card: 0 0% 100%;
@@ -38,35 +40,35 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
     
-    --primary: 211 100% 43%;
+    --primary: 214 100% 50%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 210 40% 96%;
+    --secondary: 220 14% 96%;
     --secondary-foreground: 222 47% 11%;
     
-    --muted: 210 40% 96%;
+    --muted: 220 14% 96%;
     --muted-foreground: 215 16% 47%;
     
-    --accent: 270 91% 27%;
+    --accent: 262 83% 58%;
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 211 100% 43%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 214 100% 50%;
     
     --radius: 0.75rem;
     
-    /* Custom gradients */
-    --gradient-student: linear-gradient(135deg, hsl(207 89% 93%), hsl(211 100% 88%));
-    --gradient-admin: linear-gradient(135deg, hsl(270 100% 97%), hsl(280 100% 93%));
-    --gradient-hero: linear-gradient(135deg, hsl(211 100% 43%), hsl(270 91% 27%));
+    /* Modern Gradients */
+    --gradient-student: linear-gradient(135deg, hsl(214 100% 97%), hsl(214 100% 90%));
+    --gradient-admin: linear-gradient(135deg, hsl(262 100% 97%), hsl(262 100% 90%));
+    --gradient-hero: linear-gradient(135deg, hsl(214 100% 50%), hsl(262 83% 58%));
     
-    /* Shadows */
-    --shadow-soft: 0 4px 6px -1px hsl(211 100% 43% / 0.1), 0 2px 4px -1px hsl(211 100% 43% / 0.06);
-    --shadow-elevated: 0 10px 15px -3px hsl(211 100% 43% / 0.1), 0 4px 6px -2px hsl(211 100% 43% / 0.05);
+    /* Elegant Shadows */
+    --shadow-soft: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-elevated: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
   }
 }
 
@@ -88,15 +90,15 @@ All colors MUST be HSL.
 
 @layer components {
   .student-card {
-    @apply bg-[hsl(var(--student-bg))] border-[hsl(var(--student-accent))] border-opacity-20;
+    @apply bg-white border-[hsl(var(--student-accent))] border-2 border-opacity-10 shadow-soft;
   }
   
   .admin-card {
-    @apply bg-[hsl(var(--admin-bg))] border-[hsl(var(--admin-accent))] border-opacity-20;
+    @apply bg-white border-[hsl(var(--admin-accent))] border-2 border-opacity-10 shadow-soft;
   }
   
   .complaint-card {
-    @apply bg-[hsl(var(--complaint-bg))] border-[hsl(var(--complaint-border))] border-opacity-30;
+    @apply bg-white border-[hsl(var(--complaint-accent))] border-2 border-opacity-10 shadow-soft;
   }
   
   .status-pending {

@@ -105,6 +105,15 @@ const AdminAuth = () => {
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-admin-accent mb-2">StudentVoice Admin</h1>
           <p className="text-muted-foreground">Support Team Portal</p>
+          <div className="mt-4 p-4 bg-blue-50 rounded-lg text-left text-sm">
+            <p className="font-semibold text-blue-900 mb-2">🔐 First Time Admin Setup:</p>
+            <ol className="list-decimal list-inside space-y-1 text-blue-800">
+              <li>Create account at Student Login with: <code className="bg-white px-2 py-1 rounded">admin@studentvoice.com</code></li>
+              <li>Assign super_admin role via database SQL</li>
+              <li>Return here and login with your credentials</li>
+            </ol>
+            <p className="mt-2 text-xs text-blue-700">See SETUP_ADMIN.md for detailed instructions</p>
+          </div>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
