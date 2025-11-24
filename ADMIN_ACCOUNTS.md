@@ -26,44 +26,70 @@ This system now supports **three levels of admin access** with varying permissio
 
 ---
 
-## Current Active Admin Account
+## How to Create a New Admin Account
 
-### Super Admin (Primary)
-- **Email**: `mike.wilson@brototype.com`
-- **Password**: `student123`
-- **Role**: Super Admin
-- **Status**: ✅ ACTIVE & READY
+### Step 1: Create User Account
+1. Go to `/admin-auth` page
+2. Click "Student Login" at the bottom
+3. Sign up with your desired email and password
+4. Complete the signup process
 
-**⚠️ Important**: All previous admin accounts have been removed. This is now the only active admin account in the system.
-
----
-
-## 🚀 How to Create Additional Admins
-
-### Method 1: Manual Database Entry (Current)
-
-After a user creates an account, run this SQL in your database:
+### Step 2: Assign Admin Role
+After creating the account, run this SQL in your database to assign the admin role:
 
 ```sql
--- Create a Super Admin
+-- Get the user ID first
+SELECT id, email, name FROM profiles WHERE email = 'your-email@brototype.com';
+
+-- Assign Super Admin role (replace 'user-uuid-here' with actual UUID)
 INSERT INTO public.admin_roles (user_id, role)
 VALUES ('user-uuid-here', 'super_admin');
 
--- Create a Moderator
+-- OR assign Moderator role
 INSERT INTO public.admin_roles (user_id, role)
 VALUES ('user-uuid-here', 'moderator');
 
--- Create a regular Admin
+-- OR assign Admin role
 INSERT INTO public.admin_roles (user_id, role)
 VALUES ('user-uuid-here', 'admin');
 ```
 
-### Method 2: Via Application (Coming Soon)
+### Step 3: Login to Admin Portal
+1. Go to `/admin-auth`
+2. Login with your credentials
+3. You'll be redirected to the admin dashboard
 
-A user management interface for super admins will be added in future updates where you can:
-- Promote users to admin roles
-- Change admin role levels
-- Revoke admin access
+---
+
+## Recommended Test Admin Credentials
+
+Create a new account with these credentials:
+
+- **Email**: `admin@brototype.com`
+- **Password**: `Admin@2024!`
+- **Role**: Super Admin
+
+**Note**: You must first sign up through the app, then assign the role using the SQL above.
+
+---
+
+
+## 📧 Email Notifications
+
+The system now sends automated email notifications using Resend:
+
+### Admin Notifications
+- **New Complaint**: All admins receive an email when a student submits a new complaint
+- Includes: Student name, complaint title, description, and complaint ID
+
+### Student Notifications
+- **Status Change**: Students receive an email when their complaint status is updated
+- **New Response**: Students receive an email when an admin replies to their complaint
+- Includes: Complaint details and the relevant update
+
+**Setup Required**: 
+1. Add your RESEND_API_KEY in the secrets
+2. Verify your sending domain at https://resend.com/domains
 
 ---
 
@@ -89,6 +115,7 @@ A user management interface for super admins will be added in future updates whe
 - Update complaint status (Pending, In Progress, Resolved)
 - Real-time updates when complaints change
 - Reply to student complaints via conversation threads
+- Automated email notifications
 
 ### 2. Analytics Dashboard
 - View complaint statistics and trends
@@ -139,10 +166,10 @@ A user management interface for super admins will be added in future updates whe
 
 ## 🔄 Testing Workflow
 
-### 1. Login as Super Admin
-- Go to `/admin-auth`
-- Use: `mike.wilson@brototype.com` / `student123`
-- You'll be redirected to the admin dashboard
+### 1. Create and Login as Admin
+- Sign up at `/auth` with recommended credentials (`admin@brototype.com` / `Admin@2024!`)
+- Assign super_admin role via SQL (instructions above)
+- Login at `/admin-auth`
 - Notice the "Super Admin" badge next to the dashboard title
 
 ### 2. Explore Dashboard Features
@@ -151,10 +178,11 @@ A user management interface for super admins will be added in future updates whe
 - Search and filter complaints
 - Update complaint statuses
 
-### 3. Test Navigation
-- Use "Back to Home" button on auth page to return to landing page
-- Use "Home" button in dashboard header
-- Navigate between Bulk Import and Analytics pages
+### 3. Test Email Notifications
+- Submit a test complaint as a student
+- Check admin email for new complaint notification
+- Update complaint status and verify student receives email
+- Reply to complaint and verify student receives response email
 
 ### 4. Test Complaint Management
 - Click on any complaint to view details
@@ -203,7 +231,8 @@ For complete testing, use these student accounts:
 
 ## 📝 Important Notes
 
-- **Single Active Admin**: Currently only one super admin account exists
+- **No Default Admin**: You must create and assign admin roles manually
+- **Email Setup**: Configure Resend API key and verify domain for notifications
 - **Equal Visibility**: All admin levels can see all complaints
 - **Role Badge**: Your role is displayed in the dashboard header
 - **Home Navigation**: Both portals have "Back to Home" buttons
@@ -215,8 +244,9 @@ For complete testing, use these student accounts:
 ## 🐛 Troubleshooting
 
 **Can't login to admin portal?**
-- Make sure you're using: `mike.wilson@brototype.com` / `student123`
-- Check you're on `/admin-auth` not `/auth`
+- Make sure you've created an account first via signup
+- Check that admin role was assigned via SQL
+- Verify you're on `/admin-auth` not `/auth`
 - Clear browser cache and try again
 
 **Don't see admin badge?**
@@ -228,3 +258,9 @@ For complete testing, use these student accounts:
 - Check browser console for errors
 - Verify database connection
 - Make sure RLS policies are properly set
+
+**Email notifications not working?**
+- Verify RESEND_API_KEY is set
+- Check that your domain is verified at https://resend.com/domains
+- Check edge function logs for errors
+- Make sure the "from" email domain is verified
