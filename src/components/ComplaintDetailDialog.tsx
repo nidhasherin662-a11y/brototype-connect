@@ -93,6 +93,22 @@ const ComplaintDetailDialog = ({
 
       if (error) throw error;
 
+      // Send email notification to student if this is from admin
+      if (isAdmin) {
+        try {
+          await supabase.functions.invoke('notify-student-response', {
+            body: {
+              complaintId: complaint.id,
+              studentId: complaint.student_id,
+              title: complaint.title,
+              message: newMessage,
+            },
+          });
+        } catch (emailError) {
+          console.error('Failed to send student notification:', emailError);
+        }
+      }
+
       setNewMessage("");
       toast.success("Message sent!");
     } catch (error: any) {
@@ -113,6 +129,20 @@ const ComplaintDetailDialog = ({
         .eq("id", complaint.id);
 
       if (error) throw error;
+
+      // Send email notification to student about status change
+      try {
+        await supabase.functions.invoke('notify-student-status-change', {
+          body: {
+            complaintId: complaint.id,
+            studentId: complaint.student_id,
+            title: complaint.title,
+            newStatus: status,
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send status change notification:', emailError);
+      }
 
       toast.success("Status updated!");
       onClose();

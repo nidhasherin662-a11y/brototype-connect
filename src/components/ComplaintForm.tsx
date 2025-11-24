@@ -45,16 +45,41 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
         imageUrl = publicUrl;
       }
 
-      const { error } = await supabase
+      const { data: insertedData, error } = await supabase
         .from('complaints')
         .insert({
           student_id: user.id,
           title,
           description,
           image_url: imageUrl,
-        });
+        })
+        .select()
+        .single();
 
       if (error) throw error;
+
+      // Get student profile for email
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('name')
+        .eq('id', user.id)
+        .single();
+
+      // Send email notification to admins
+      if (insertedData && profile) {
+        try {
+          await supabase.functions.invoke('notify-admin-new-complaint', {
+            body: {
+              complaintId: insertedData.id,
+              studentName: profile.name,
+              title,
+              description,
+            },
+          });
+        } catch (emailError) {
+          console.error('Failed to send admin notification:', emailError);
+        }
+      }
 
       toast.success("Complaint submitted successfully!");
       setTitle("");
