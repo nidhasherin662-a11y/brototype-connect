@@ -125,7 +125,12 @@ const StudentDashboard = () => {
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary">Student Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" onClick={() => navigate("/")}>
+              ← Home
+            </Button>
+            <h1 className="text-2xl font-bold text-primary">Student Dashboard</h1>
+          </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate("/profile")}>
               <Settings className="w-4 h-4 mr-2" />
