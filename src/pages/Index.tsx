@@ -11,13 +11,13 @@ const Index = () => {
       <div className="relative bg-gradient-hero text-white py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
-            Brototype Complaint Portal
+            StudentVoice 🎓
           </h1>
-          <p className="text-xl md:text-2xl mb-4 opacity-90">
-            Connecting Voices. Building Solutions.
+          <p className="text-xl md:text-2xl mb-4 opacity-90 font-semibold">
+            Empowering Your Campus Experience
           </p>
           <p className="text-lg md:text-xl italic opacity-80 mb-8">
-            "Every voice matters — when you speak, we listen."
+            "Your voice creates change. Together, we build a better campus community."
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -42,27 +42,27 @@ const Index = () => {
       {/* Features Section */}
       <div className="py-20 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">How It Works</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">How We Support You</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6 rounded-lg student-card shadow-soft hover:shadow-elevated transition-shadow">
               <MessageSquare className="w-16 h-16 mx-auto mb-4 text-student-accent" />
-              <h3 className="text-2xl font-bold mb-3">Raise Complaints</h3>
+              <h3 className="text-2xl font-bold mb-3">Share Your Concerns</h3>
               <p className="text-muted-foreground">
-                Students can submit complaints with details and upload images as proof
+                Safely submit your concerns with details and supporting evidence. Your privacy is protected.
               </p>
             </div>
             <div className="text-center p-6 rounded-lg admin-card shadow-soft hover:shadow-elevated transition-shadow">
               <Shield className="w-16 h-16 mx-auto mb-4 text-admin-accent" />
-              <h3 className="text-2xl font-bold mb-3">Admin Review</h3>
+              <h3 className="text-2xl font-bold mb-3">Dedicated Support</h3>
               <p className="text-muted-foreground">
-                Staff can view, track, and respond to complaints efficiently
+                Our caring team reviews every concern and works diligently to find solutions that work for you.
               </p>
             </div>
             <div className="text-center p-6 rounded-lg complaint-card shadow-soft hover:shadow-elevated transition-shadow">
               <TrendingUp className="w-16 h-16 mx-auto mb-4 text-complaint-accent" />
-              <h3 className="text-2xl font-bold mb-3">Track Progress</h3>
+              <h3 className="text-2xl font-bold mb-3">Watch Progress Unfold</h3>
               <p className="text-muted-foreground">
-                Real-time status updates: Pending, In Progress, Resolved
+                Stay informed with real-time updates as we work together towards positive outcomes.
               </p>
             </div>
           </div>
@@ -72,9 +72,9 @@ const Index = () => {
       {/* CTA Section */}
       <div className="py-20 px-4 bg-gradient-student">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Make Your Voice Heard?</h2>
+          <h2 className="text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
           <p className="text-xl mb-8 text-muted-foreground">
-            Join Brototype's transparent complaint management system today
+            Join StudentVoice today and be part of creating a supportive, thriving campus community where every concern is heard and valued. 🌟
           </p>
           <Button
             size="lg"
@@ -90,7 +90,7 @@ const Index = () => {
       <footer className="bg-foreground text-background py-8 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-sm opacity-80">
-            © 2024 Brototype. Built with transparency and care.
+            © 2024 StudentVoice Platform. Empowering students, building community, creating positive change. 💪
           </p>
         </div>
       </footer>

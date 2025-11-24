@@ -103,8 +103,8 @@ const AdminAuth = () => {
           Back to Home
         </Button>
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-admin-accent mb-2">Admin Portal</h1>
-          <p className="text-muted-foreground">Staff Access Only</p>
+          <h1 className="text-3xl font-bold text-admin-accent mb-2">StudentVoice Admin</h1>
+          <p className="text-muted-foreground">Support Team Portal</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
