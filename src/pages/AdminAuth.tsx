@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { User } from "@supabase/supabase-js";
+import { ArrowLeft } from "lucide-react";
 
 const AdminAuth = () => {
   const navigate = useNavigate();
@@ -93,6 +94,14 @@ const AdminAuth = () => {
   return (
     <div className="min-h-screen bg-gradient-admin flex items-center justify-center p-4">
       <Card className="w-full max-w-md p-8 shadow-elevated admin-card">
+        <Button
+          variant="ghost"
+          className="mb-4"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Button>
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-admin-accent mb-2">Admin Portal</h1>
           <p className="text-muted-foreground">Staff Access Only</p>
