@@ -47,16 +47,35 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+        student: {
+          bg: "hsl(var(--student-bg))",
+          accent: "hsl(var(--student-accent))",
+          hover: "hsl(var(--student-hover))",
         },
+        admin: {
+          bg: "hsl(var(--admin-bg))",
+          accent: "hsl(var(--admin-accent))",
+          hover: "hsl(var(--admin-hover))",
+        },
+        complaint: {
+          bg: "hsl(var(--complaint-bg))",
+          accent: "hsl(var(--complaint-accent))",
+          border: "hsl(var(--complaint-border))",
+        },
+        status: {
+          pending: "hsl(var(--status-pending))",
+          progress: "hsl(var(--status-progress))",
+          resolved: "hsl(var(--status-resolved))",
+        },
+      },
+      backgroundImage: {
+        'gradient-student': 'var(--gradient-student)',
+        'gradient-admin': 'var(--gradient-admin)',
+        'gradient-hero': 'var(--gradient-hero)',
+      },
+      boxShadow: {
+        'soft': 'var(--shadow-soft)',
+        'elevated': 'var(--shadow-elevated)',
       },
       borderRadius: {
         lg: "var(--radius)",
