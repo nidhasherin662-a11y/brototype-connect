@@ -13,6 +13,9 @@ import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import BulkImport from "./pages/BulkImport";
 import FAQ from "./pages/FAQ";
 import AboutUs from "./pages/AboutUs";
+import Survey from "./pages/Survey";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +37,9 @@ const App = () => (
           <Route path="/bulk-import" element={<BulkImport />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/survey" element={<Survey />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { MessageSquare, Shield, TrendingUp } from "lucide-react";
 import LiveChat from "@/components/LiveChat";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -104,13 +105,7 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-foreground text-background py-8 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-sm opacity-80">
-            © 2024 StudentVoice Platform. Empowering students, building community, creating positive change. 💪
-          </p>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Live Chat */}
       <LiveChat />

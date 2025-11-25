@@ -147,6 +147,56 @@ export type Database = {
         }
         Relationships: []
       }
+      satisfaction_surveys: {
+        Row: {
+          complaint_id: string
+          created_at: string | null
+          feedback: string | null
+          id: string
+          rating: number | null
+          response_time_rating: number | null
+          student_id: string
+          submitted_at: string | null
+          support_quality_rating: number | null
+          survey_token: string
+          would_recommend: boolean | null
+        }
+        Insert: {
+          complaint_id: string
+          created_at?: string | null
+          feedback?: string | null
+          id?: string
+          rating?: number | null
+          response_time_rating?: number | null
+          student_id: string
+          submitted_at?: string | null
+          support_quality_rating?: number | null
+          survey_token?: string
+          would_recommend?: boolean | null
+        }
+        Update: {
+          complaint_id?: string
+          created_at?: string | null
+          feedback?: string | null
+          id?: string
+          rating?: number | null
+          response_time_rating?: number | null
+          student_id?: string
+          submitted_at?: string | null
+          support_quality_rating?: number | null
+          survey_token?: string
+          would_recommend?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "satisfaction_surveys_complaint_id_fkey"
+            columns: ["complaint_id"]
+            isOneToOne: false
+            referencedRelation: "complaints"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
