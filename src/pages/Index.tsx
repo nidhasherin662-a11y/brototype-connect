@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { MessageSquare, Shield, TrendingUp } from "lucide-react";
+import { MessageSquare, Shield, TrendingUp, Lock, Zap, Eye, Users } from "lucide-react";
 import LiveChat from "@/components/LiveChat";
 import Footer from "@/components/Footer";
 
@@ -83,6 +84,70 @@ const Index = () => {
                 Stay informed with real-time updates as we work together towards positive outcomes.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Why StudentVoice Section */}
+      <div className="py-20 px-4 bg-muted/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Why StudentVoice?</h2>
+            <p className="text-xl text-muted-foreground">
+              What makes our platform special and trusted by students across campus
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="p-6 text-center hover:shadow-elevated transition-all hover:-translate-y-1">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                <Lock className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-bold text-lg mb-2 text-foreground">Safe & Private</h3>
+              <p className="text-sm text-muted-foreground">
+                Your information is encrypted and protected. Share concerns confidently knowing your privacy is our priority.
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center hover:shadow-elevated transition-all hover:-translate-y-1">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                <Zap className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-bold text-lg mb-2 text-foreground">Faster Communication</h3>
+              <p className="text-sm text-muted-foreground">
+                Get quick responses and real-time updates. No more waiting weeks for email replies or getting lost in bureaucracy.
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center hover:shadow-elevated transition-all hover:-translate-y-1">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                <Eye className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-bold text-lg mb-2 text-foreground">Full Transparency</h3>
+              <p className="text-sm text-muted-foreground">
+                Track your concern from submission to resolution. See exactly what&apos;s happening every step of the way.
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center hover:shadow-elevated transition-all hover:-translate-y-1">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                <Users className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-bold text-lg mb-2 text-foreground">Campus Improvement</h3>
+              <p className="text-sm text-muted-foreground">
+                Your feedback drives positive change. Help us build a better campus community for everyone.
+              </p>
+            </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Card className="p-8 bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20">
+              <h3 className="text-2xl font-bold mb-3 text-foreground">Easy-to-Use Interface</h3>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Simple, intuitive design means you can focus on what matters - being heard. 
+                Submit concerns in minutes, not hours. No complicated forms or confusing processes.
+              </p>
+            </Card>
           </div>
         </div>
       </div>

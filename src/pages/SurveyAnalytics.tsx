@@ -3,19 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { ArrowLeft, TrendingUp, Users, Star, ThumbsUp } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, Star, ThumbsUp, Download, Filter } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { format } from "date-fns";
 
 const SurveyAnalytics = () => {
   const navigate = useNavigate();
   const [surveys, setSurveys] = useState<any[]>([]);
+  const [filteredSurveys, setFilteredSurveys] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Filters
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [minRating, setMinRating] = useState("all");
+  const [recommendFilter, setRecommendFilter] = useState("all");
 
   useEffect(() => {
     checkAdmin();
     fetchSurveys();
   }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [surveys, startDate, endDate, minRating, recommendFilter]);
 
   const checkAdmin = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -48,23 +62,94 @@ const SurveyAnalytics = () => {
     }
   };
 
-  // Calculate metrics
-  const totalSurveys = surveys.length;
-  const avgRating = surveys.length > 0
-    ? (surveys.reduce((sum, s) => sum + (s.rating || 0), 0) / surveys.length).toFixed(1)
+  const applyFilters = () => {
+    let filtered = [...surveys];
+
+    // Date range filter
+    if (startDate) {
+      filtered = filtered.filter(s => 
+        new Date(s.submitted_at) >= new Date(startDate)
+      );
+    }
+    if (endDate) {
+      filtered = filtered.filter(s => 
+        new Date(s.submitted_at) <= new Date(endDate)
+      );
+    }
+
+    // Rating filter
+    if (minRating !== "all") {
+      const minVal = parseInt(minRating);
+      filtered = filtered.filter(s => (s.rating || 0) >= minVal);
+    }
+
+    // Recommendation filter
+    if (recommendFilter !== "all") {
+      const shouldRecommend = recommendFilter === "yes";
+      filtered = filtered.filter(s => s.would_recommend === shouldRecommend);
+    }
+
+    setFilteredSurveys(filtered);
+  };
+
+  const exportToCSV = () => {
+    if (filteredSurveys.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+
+    const headers = [
+      "Survey ID",
+      "Submitted Date",
+      "Overall Rating",
+      "Response Time Rating",
+      "Support Quality Rating",
+      "Would Recommend",
+      "Feedback"
+    ];
+
+    const csvData = filteredSurveys.map(survey => [
+      survey.id,
+      format(new Date(survey.submitted_at), "yyyy-MM-dd HH:mm:ss"),
+      survey.rating || "N/A",
+      survey.response_time_rating || "N/A",
+      survey.support_quality_rating || "N/A",
+      survey.would_recommend ? "Yes" : "No",
+      `"${(survey.feedback || "").replace(/"/g, '""')}"` // Escape quotes
+    ]);
+
+    const csv = [
+      headers.join(","),
+      ...csvData.map(row => row.join(","))
+    ].join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `survey-responses-${format(new Date(), "yyyy-MM-dd")}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    toast.success("Survey data exported successfully!");
+  };
+
+  // Calculate metrics (use filtered surveys)
+  const totalSurveys = filteredSurveys.length;
+  const avgRating = filteredSurveys.length > 0
+    ? (filteredSurveys.reduce((sum, s) => sum + (s.rating || 0), 0) / filteredSurveys.length).toFixed(1)
     : "0";
-  const avgResponseTime = surveys.length > 0
-    ? (surveys.reduce((sum, s) => sum + (s.response_time_rating || 0), 0) / surveys.length).toFixed(1)
+  const avgResponseTime = filteredSurveys.length > 0
+    ? (filteredSurveys.reduce((sum, s) => sum + (s.response_time_rating || 0), 0) / filteredSurveys.length).toFixed(1)
     : "0";
-  const avgSupportQuality = surveys.length > 0
-    ? (surveys.reduce((sum, s) => sum + (s.support_quality_rating || 0), 0) / surveys.length).toFixed(1)
+  const avgSupportQuality = filteredSurveys.length > 0
+    ? (filteredSurveys.reduce((sum, s) => sum + (s.support_quality_rating || 0), 0) / filteredSurveys.length).toFixed(1)
     : "0";
-  const recommendRate = surveys.length > 0
-    ? ((surveys.filter(s => s.would_recommend).length / surveys.length) * 100).toFixed(1)
+  const recommendRate = filteredSurveys.length > 0
+    ? ((filteredSurveys.filter(s => s.would_recommend).length / filteredSurveys.length) * 100).toFixed(1)
     : "0";
 
-  // Trends over time (group by month)
-  const trendData = surveys.reduce((acc: any[], survey) => {
+  // Trends over time (group by month) - use filtered surveys
+  const trendData = filteredSurveys.reduce((acc: any[], survey) => {
     if (!survey.submitted_at) return acc;
     const date = new Date(survey.submitted_at);
     const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -83,16 +168,16 @@ const SurveyAnalytics = () => {
     return acc;
   }, []);
 
-  // Rating distribution
+  // Rating distribution - use filtered surveys
   const ratingDistribution = [1, 2, 3, 4, 5].map(rating => ({
     rating: `${rating} Star${rating > 1 ? 's' : ''}`,
-    count: surveys.filter(s => s.rating === rating).length
+    count: filteredSurveys.filter(s => s.rating === rating).length
   }));
 
-  // Would recommend pie chart
+  // Would recommend pie chart - use filtered surveys
   const recommendData = [
-    { name: "Would Recommend", value: surveys.filter(s => s.would_recommend).length },
-    { name: "Would Not Recommend", value: surveys.filter(s => !s.would_recommend).length }
+    { name: "Would Recommend", value: filteredSurveys.filter(s => s.would_recommend).length },
+    { name: "Would Not Recommend", value: filteredSurveys.filter(s => !s.would_recommend).length }
   ];
 
   const COLORS = ['hsl(var(--primary))', 'hsl(var(--destructive))'];
@@ -116,6 +201,73 @@ const SurveyAnalytics = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Filters and Export */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Filter className="w-5 h-5 text-primary" />
+              <h3 className="text-lg font-semibold text-foreground">Filters & Export</h3>
+            </div>
+            <Button onClick={exportToCSV} className="gap-2">
+              <Download className="w-4 h-4" />
+              Export CSV
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Start Date</label>
+              <Input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                placeholder="Start date"
+              />
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">End Date</label>
+              <Input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                placeholder="End date"
+              />
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Min Rating</label>
+              <Select value={minRating} onValueChange={setMinRating}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All ratings" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Ratings</SelectItem>
+                  <SelectItem value="1">1+ Stars</SelectItem>
+                  <SelectItem value="2">2+ Stars</SelectItem>
+                  <SelectItem value="3">3+ Stars</SelectItem>
+                  <SelectItem value="4">4+ Stars</SelectItem>
+                  <SelectItem value="5">5 Stars</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Recommendation</label>
+              <Select value={recommendFilter} onValueChange={setRecommendFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="yes">Would Recommend</SelectItem>
+                  <SelectItem value="no">Would Not Recommend</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </Card>
+
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card className="p-6">
@@ -285,7 +437,7 @@ const SurveyAnalytics = () => {
         <Card className="p-6 mt-6">
           <h3 className="text-lg font-semibold mb-4 text-foreground">Recent Feedback</h3>
           <div className="space-y-4">
-            {surveys
+            {filteredSurveys
               .filter(s => s.feedback)
               .slice(-5)
               .reverse()
@@ -303,7 +455,7 @@ const SurveyAnalytics = () => {
                   <p className="text-sm text-foreground">{survey.feedback}</p>
                 </div>
               ))}
-            {surveys.filter(s => s.feedback).length === 0 && (
+            {filteredSurveys.filter(s => s.feedback).length === 0 && (
               <p className="text-center text-muted-foreground py-4">No feedback available</p>
             )}
           </div>
