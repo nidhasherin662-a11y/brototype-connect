@@ -21,6 +21,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
   const [selectedComplaint, setSelectedComplaint] = useState<any>(null);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     filterComplaints();
-  }, [complaints, searchQuery, statusFilter]);
+  }, [complaints, searchQuery, statusFilter, priorityFilter]);
 
   const checkAuth = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -136,6 +137,10 @@ const AdminDashboard = () => {
 
     if (statusFilter !== "all") {
       filtered = filtered.filter((c) => c.status === statusFilter);
+    }
+
+    if (priorityFilter !== "all") {
+      filtered = filtered.filter((c) => c.priority === priorityFilter);
     }
 
     setFilteredComplaints(filtered);
@@ -270,6 +275,18 @@ const AdminDashboard = () => {
               <SelectItem value="Pending">Pending</SelectItem>
               <SelectItem value="In Progress">In Progress</SelectItem>
               <SelectItem value="Resolved">Resolved</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue placeholder="Filter by priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Priorities</SelectItem>
+              <SelectItem value="Low">Low</SelectItem>
+              <SelectItem value="Medium">Medium</SelectItem>
+              <SelectItem value="High">High</SelectItem>
+              <SelectItem value="Urgent">Urgent</SelectItem>
             </SelectContent>
           </Select>
         </div>

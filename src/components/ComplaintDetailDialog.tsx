@@ -33,6 +33,7 @@ const ComplaintDetailDialog = ({
   const [responses, setResponses] = useState<Response[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [status, setStatus] = useState(complaint.status);
+  const [priority, setPriority] = useState(complaint.priority);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -119,13 +120,13 @@ const ComplaintDetailDialog = ({
   };
 
   const handleStatusUpdate = async () => {
-    if (status === complaint.status) return;
+    if (status === complaint.status && priority === complaint.priority) return;
     
     setLoading(true);
     try {
       const { error } = await supabase
         .from("complaints")
-        .update({ status })
+        .update({ status, priority })
         .eq("id", complaint.id);
 
       if (error) throw error;
@@ -166,6 +167,21 @@ const ComplaintDetailDialog = ({
     }
   };
 
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case "Low":
+        return "bg-blue-500 text-white";
+      case "Medium":
+        return "bg-yellow-500 text-white";
+      case "High":
+        return "bg-orange-500 text-white";
+      case "Urgent":
+        return "bg-red-600 text-white";
+      default:
+        return "bg-gray-500 text-white";
+    }
+  };
+
   const date = new Date(complaint.created_at);
   const dateStr = format(date, "PPP");
   const timeStr = format(date, "p");
@@ -182,9 +198,14 @@ const ComplaintDetailDialog = ({
           {/* Complaint Details */}
           <div className="complaint-card p-4 rounded-lg">
             <div className="flex justify-between items-start mb-3">
-              <Badge className={getStatusColor(complaint.status)}>
-                {complaint.status}
-              </Badge>
+              <div className="flex gap-2">
+                <Badge className={getPriorityColor(complaint.priority)}>
+                  {complaint.priority}
+                </Badge>
+                <Badge className={getStatusColor(complaint.status)}>
+                  {complaint.status}
+                </Badge>
+              </div>
               {studentName && (
                 <p className="text-sm text-muted-foreground">
                   Student: <span className="font-semibold">{studentName}</span>
@@ -216,19 +237,42 @@ const ComplaintDetailDialog = ({
 
           {/* Admin Controls */}
           {isAdmin && (
-            <div className="flex gap-4">
-              <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger className="flex-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Pending">Pending</SelectItem>
-                  <SelectItem value="In Progress">In Progress</SelectItem>
-                  <SelectItem value="Resolved">Resolved</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button onClick={handleStatusUpdate} disabled={loading || status === complaint.status}>
-                Update Status
+            <div className="space-y-3">
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <label className="text-sm font-medium mb-2 block">Status</label>
+                  <Select value={status} onValueChange={setStatus}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Pending">Pending</SelectItem>
+                      <SelectItem value="In Progress">In Progress</SelectItem>
+                      <SelectItem value="Resolved">Resolved</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex-1">
+                  <label className="text-sm font-medium mb-2 block">Priority</label>
+                  <Select value={priority} onValueChange={setPriority}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Low">Low</SelectItem>
+                      <SelectItem value="Medium">Medium</SelectItem>
+                      <SelectItem value="High">High</SelectItem>
+                      <SelectItem value="Urgent">Urgent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <Button 
+                onClick={handleStatusUpdate} 
+                disabled={loading || (status === complaint.status && priority === complaint.priority)}
+                className="w-full"
+              >
+                Update Status & Priority
               </Button>
             </div>
           )}
