@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Target, Heart, Shield } from "lucide-react";
+import Footer from "@/components/Footer";
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -98,6 +99,7 @@ const AboutUs = () => {
           </Button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

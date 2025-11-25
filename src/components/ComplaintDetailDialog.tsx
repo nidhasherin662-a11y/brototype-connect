@@ -122,6 +122,7 @@ const ComplaintDetailDialog = ({
   const handleStatusUpdate = async () => {
     if (status === complaint.status && priority === complaint.priority) return;
     
+    const previousStatus = complaint.status;
     setLoading(true);
     try {
       const { error } = await supabase
@@ -143,6 +144,22 @@ const ComplaintDetailDialog = ({
         });
       } catch (emailError) {
         console.error('Failed to send status change notification:', emailError);
+      }
+
+      // If status changed to "Resolved", send satisfaction survey
+      if (status === "Resolved" && previousStatus !== "Resolved") {
+        try {
+          await supabase.functions.invoke('send-satisfaction-survey', {
+            body: {
+              complaintId: complaint.id,
+              studentId: complaint.student_id,
+              complaintTitle: complaint.title,
+            },
+          });
+          console.log('Satisfaction survey sent successfully');
+        } catch (surveyError) {
+          console.error('Failed to send satisfaction survey:', surveyError);
+        }
       }
 
       toast.success("Status updated!");
