@@ -9,6 +9,7 @@ interface Complaint {
   description: string;
   image_url: string | null;
   status: string;
+  priority: string;
   created_at: string;
   updated_at: string;
 }
@@ -34,6 +35,21 @@ const ComplaintCard = ({ complaint, onClick, showStudentInfo, studentName }: Com
     }
   };
 
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case "Low":
+        return "bg-blue-500 text-white";
+      case "Medium":
+        return "bg-yellow-500 text-white";
+      case "High":
+        return "bg-orange-500 text-white";
+      case "Urgent":
+        return "bg-red-600 text-white";
+      default:
+        return "bg-gray-500 text-white";
+    }
+  };
+
   const date = new Date(complaint.created_at);
   const dateStr = format(date, "PPP");
   const timeStr = format(date, "p");
@@ -46,9 +62,14 @@ const ComplaintCard = ({ complaint, onClick, showStudentInfo, studentName }: Com
     >
       <div className="flex justify-between items-start mb-3">
         <h3 className="text-xl font-bold flex-1">{complaint.title}</h3>
-        <Badge className={getStatusColor(complaint.status)}>
-          {complaint.status}
-        </Badge>
+        <div className="flex gap-2">
+          <Badge className={getPriorityColor(complaint.priority)}>
+            {complaint.priority}
+          </Badge>
+          <Badge className={getStatusColor(complaint.status)}>
+            {complaint.status}
+          </Badge>
+        </div>
       </div>
       
       {showStudentInfo && studentName && (

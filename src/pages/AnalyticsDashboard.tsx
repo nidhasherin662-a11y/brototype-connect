@@ -115,6 +115,14 @@ const AnalyticsDashboard = () => {
     count: complaints.filter((c) => c.category === category).length,
   })).filter((item) => item.count > 0);
 
+  // Priority distribution
+  const priorityData = [
+    { name: "Low", value: complaints.filter((c) => c.priority === "Low").length, color: "#3b82f6" },
+    { name: "Medium", value: complaints.filter((c) => c.priority === "Medium").length, color: "#eab308" },
+    { name: "High", value: complaints.filter((c) => c.priority === "High").length, color: "#f97316" },
+    { name: "Urgent", value: complaints.filter((c) => c.priority === "Urgent").length, color: "#dc2626" },
+  ].filter((item) => item.value > 0);
+
   // Calculate resolution times
   const resolvedComplaints = complaints.filter((c) => c.status === "Resolved");
   const avgResolutionTime =
@@ -238,19 +246,45 @@ const AnalyticsDashboard = () => {
         </div>
 
         {/* Category Breakdown */}
-        <Card className="p-6 mb-8">
-          <h3 className="text-xl font-bold mb-4">Concerns by Category</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={categoryData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="count" fill="hsl(var(--primary))" />
-            </BarChart>
-          </ResponsiveContainer>
-        </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <Card className="p-6">
+            <h3 className="text-xl font-bold mb-4">Concerns by Category</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={categoryData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="count" fill="hsl(var(--primary))" />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+
+          {/* Priority Distribution */}
+          <Card className="p-6">
+            <h3 className="text-xl font-bold mb-4">Priority Distribution</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={priorityData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={(entry) => `${entry.name}: ${entry.value}`}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {priorityData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </div>
 
         {/* Performance Metrics */}
         <Card className="p-6">

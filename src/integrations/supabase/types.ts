@@ -77,6 +77,7 @@ export type Database = {
           description: string
           id: string
           image_url: string | null
+          priority: string
           status: string
           student_id: string
           title: string
@@ -88,6 +89,7 @@ export type Database = {
           description: string
           id?: string
           image_url?: string | null
+          priority?: string
           status?: string
           student_id: string
           title: string
@@ -99,6 +101,7 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          priority?: string
           status?: string
           student_id?: string
           title?: string

@@ -17,6 +17,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("General");
+  const [priority, setPriority] = useState("Medium");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const categories = [
@@ -28,6 +29,8 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
     "Administration",
     "General",
   ];
+
+  const priorities = ["Low", "Medium", "High", "Urgent"];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +66,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
           title,
           description,
           category,
+          priority,
           image_url: imageUrl,
         })
         .select()
@@ -97,6 +101,7 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
       setTitle("");
       setDescription("");
       setCategory("General");
+      setPriority("Medium");
       setImageFile(null);
       onSuccess();
     } catch (error: any) {
@@ -133,6 +138,22 @@ const ComplaintForm = ({ onSuccess }: ComplaintFormProps) => {
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <Label htmlFor="priority">Priority Level</Label>
+          <select
+            id="priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+            className="w-full p-2 border rounded-md bg-background"
+            required
+          >
+            {priorities.map((pri) => (
+              <option key={pri} value={pri}>
+                {pri}
               </option>
             ))}
           </select>
