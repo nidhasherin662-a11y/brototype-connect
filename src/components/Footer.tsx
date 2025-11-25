@@ -60,6 +60,27 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Contact / Support Section */}
+          <div>
+            <h4 className="text-sm font-semibold mb-4 text-foreground">Contact & Support</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                <a href="mailto:support@studentvoice.com" className="hover:text-primary transition-colors">
+                  support@studentvoice.com
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5">📍</span>
+                <span>Campus Student Center, Building A, Room 101</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>📞</span>
+                <span>Helpline: +1 (555) 123-4567</span>
+              </li>
+            </ul>
+          </div>
+
           {/* Social Links */}
           <div>
             <h4 className="text-sm font-semibold mb-4 text-foreground">Connect With Us</h4>
@@ -99,13 +120,6 @@ const Footer = () => {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
-              </a>
-              <a
-                href="mailto:support@studentvoice.com"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="Email"
-              >
-                <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>
