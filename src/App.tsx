@@ -10,6 +10,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProfileSettings from "./pages/ProfileSettings";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import SurveyAnalytics from "./pages/SurveyAnalytics";
 import BulkImport from "./pages/BulkImport";
 import FAQ from "./pages/FAQ";
 import AboutUs from "./pages/AboutUs";
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/profile" element={<ProfileSettings />} />
           <Route path="/analytics" element={<AnalyticsDashboard />} />
+          <Route path="/survey-analytics" element={<SurveyAnalytics />} />
           <Route path="/bulk-import" element={<BulkImport />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/about" element={<AboutUs />} />

@@ -181,7 +181,11 @@ const AdminDashboard = () => {
             </Button>
             <Button variant="outline" onClick={() => navigate("/analytics")}>
               <BarChart3 className="w-4 h-4 mr-2" />
-              Analytics
+              Complaint Analytics
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/survey-analytics")}>
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Survey Analytics
             </Button>
             <Button variant="outline" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
